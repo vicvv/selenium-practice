@@ -215,5 +215,4 @@ Checkbox 2 selected? True
 5. (1) Press Enter in a field: `field.send_keys(Keys.RETURN)`. (2) Locate and `.click()` the submit/Login button.
 6. `element_to_be_clickable` — it waits until the button is visible **and** enabled. `presence` only confirms it exists in the DOM; a disabled button exists but can't be clicked yet.
 
----
 
