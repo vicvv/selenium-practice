@@ -109,13 +109,13 @@ MENTAL MODEL (KEEP THIS)
 
 HANDS-ON PRACTICE
 
-Save as waits.py, venv activated, then run:
+Save as mod2-waits.py, venv activated, then run:
 
 ```
-python3 FILES/waits.py
+python3 FILES/mod2-waits.py
 ```
 
-This uses Selenium's official "dynamic loading" practice page, which deliberately loads an element after a delay - perfect for seeing waits in action.
+This uses the "dynamic loading" page on the-internet.herokuapp.com, a public practice site (not part of the Selenium project), which deliberately loads an element after a delay - perfect for seeing waits in action.
 
 ```python
 from selenium import webdriver
@@ -127,7 +127,7 @@ from selenium.common.exceptions import TimeoutException
 driver = webdriver.Chrome()
 driver.get("https://the-internet.herokuapp.com/dynamic_loading/1")
 
-# 1. Click "Start" — wait until it's CLICKABLE first (good habit)
+# 1. Click "Start" - wait until it's CLICKABLE first (good habit)
 start_btn = WebDriverWait(driver, 10).until(
     EC.element_to_be_clickable((By.CSS_SELECTOR, "#start button"))
 )

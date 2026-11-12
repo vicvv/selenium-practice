@@ -1,4 +1,3 @@
-
 SELENIUM WITH PYTHON - MODULE 3: BROWSER INTERACTIONS
 (ReagentSee-flavored: login + search patterns)
 
@@ -114,10 +113,10 @@ MENTAL MODEL (MAPS TO REAGENTSEE LATER)
 
 HANDS-ON PRACTICE
 
-Save as interactions.py, venv activated:
+Save as mod3-interactions.py, venv activated:
 
 ```
-python3 FILES/interactions.py
+python3 FILES/mod3-interactions.py
 ```
 
 - Part A uses a public login form (mimics ReagentSee login).
