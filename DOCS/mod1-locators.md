@@ -1,4 +1,4 @@
-# Selenium with Python — Module 1: Locators
+## Selenium with Python — Module 1: Locators
 
 ## Goal
 
@@ -80,7 +80,7 @@ Avoid relying on `CLASS_NAME` alone or on long, brittle XPaths.
 Save as `locators.py`, venv activated, then run:
 
 ```
-python3 FILES/locators.py
+python3 FILES/mod1-locators.py
 ```
 
 ```python

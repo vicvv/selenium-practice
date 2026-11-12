@@ -1,4 +1,4 @@
-# Selenium with Python — Module 2: Waits
+## Selenium with Python — Module 2: Waits
 
 ## Goal
 
@@ -111,7 +111,7 @@ As soon as the condition is true, it returns the element and moves on. If 10s pa
 
 ## Hands-On Practice
 
-Save as `waits.py`, venv activated, then run:
+Save as `mod2-waits.py`, venv activated, then run:
 
 ```
 python3 FILES/waits.py

@@ -1,4 +1,4 @@
-# Selenium with Python — Module 3: Browser Interactions
+## Selenium with Python — Module 3: Browser Interactions
 *(ReagentSee-flavored: login + search patterns)*
 
 ## Goal
