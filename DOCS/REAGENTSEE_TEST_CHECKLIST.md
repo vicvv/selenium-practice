@@ -1,7 +1,7 @@
-========================================================
+
 CHECKLIST — BEFORE AUTOMATING AGAINST REAGENTSEE DEV
 Target: https://reagentsee-dev.gene.com/ReagentSee/
-========================================================
+
 
 NETWORK ACCESS
 [ ] Onsite: reachable directly, no VPN needed.

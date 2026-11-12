@@ -1,33 +1,31 @@
-## Selenium with Python — Module 3: Browser Interactions
-*(ReagentSee-flavored: login + search patterns)*
 
-## Goal
+SELENIUM WITH PYTHON - MODULE 3: BROWSER INTERACTIONS
+(ReagentSee-flavored: login + search patterns)
+
+
+GOAL
 
 Learn the core ways to interact with page elements beyond typing: clicks, clearing fields, dropdowns, checkboxes, radio buttons, and keyboard keys (like Enter to submit a search).
 
-We practice on **public** sites, but the patterns are exactly what you'll use on ReagentSee dev later (log in, pick filters, run a search).
+We practice on public sites, but the patterns are exactly what you'll use on ReagentSee dev later (log in, pick filters, run a search).
 
----
 
-## The Interaction Toolkit
+THE INTERACTION TOOLKIT
 
 From an element you've located:
 
-| Method | What it does |
-|---|---|
-| `element.click()` | Click a button/link/checkbox |
-| `element.send_keys("text")` | Type into a field |
-| `element.clear()` | Empty a field before typing |
-| `element.send_keys(Keys.RETURN)` | Press Enter (submit a search/form) |
-| `element.text` | Read the visible text |
-| `element.get_attribute("value")` | Read an input's current value |
-| `element.is_selected()` | Is a checkbox/radio checked? |
-| `element.is_enabled()` | Is it clickable/active? |
-| `element.is_displayed()` | Is it visible? |
+- element.click() - Click a button/link/checkbox
+- element.send_keys("text") - Type into a field
+- element.clear() - Empty a field before typing
+- element.send_keys(Keys.RETURN) - Press Enter (submit a search/form)
+- element.text - Read the visible text
+- element.get_attribute("value") - Read an input's current value
+- element.is_selected() - Is a checkbox/radio checked?
+- element.is_enabled() - Is it clickable/active?
+- element.is_displayed() - Is it visible?
 
----
 
-## Typing Into Fields (login username/password, search box)
+TYPING INTO FIELDS (LOGIN USERNAME/PASSWORD, SEARCH BOX)
 
 ```python
 from selenium.webdriver.common.by import By
@@ -40,9 +38,8 @@ pwd = driver.find_element(By.ID, "password")
 pwd.send_keys("secret123")
 ```
 
----
 
-## Keyboard Keys (Enter, Tab, etc.)
+KEYBOARD KEYS (ENTER, TAB, ETC.)
 
 ```python
 from selenium.webdriver.common.keys import Keys
@@ -53,12 +50,11 @@ search.send_keys(Keys.RETURN)     # press Enter to run the search
 # Other handy keys: Keys.TAB, Keys.ESCAPE, Keys.ENTER (same as RETURN)
 ```
 
----
 
-## Dropdown Menus (the `Select` class)
-*e.g. a "Location" or "Status" filter*
+DROPDOWN MENUS (THE SELECT CLASS)
+e.g. a "Location" or "Status" filter
 
-Selenium has a **special helper** for `<select>` dropdowns. Don't just click them like normal elements — wrap them in `Select`.
+Selenium has a special helper for `<select>` dropdowns. Don't just click them like normal elements - wrap them in Select.
 
 ```python
 from selenium.webdriver.support.ui import Select
@@ -72,10 +68,9 @@ dropdown.select_by_index(2)                 # pick by position (0-based)
 print(dropdown.first_selected_option.text)
 ```
 
----
 
-## Checkboxes and Radio Buttons
-*e.g. "Only Active", "Include child locations"*
+CHECKBOXES AND RADIO BUTTONS
+e.g. "Only Active", "Include child locations"
 
 ```python
 checkbox = driver.find_element(By.ID, "only-active")
@@ -86,47 +81,48 @@ if not checkbox.is_selected():    # only click if not already checked
 driver.find_element(By.CSS_SELECTOR, "input[value='barcode']").click()
 ```
 
----
 
-## Why It Matters / Traps (read this part!)
+WHY IT MATTERS / TRAPS (READ THIS PART!)
 
-- **Trap 1 — `<select>` dropdowns need the `Select` class.** If you try to handle a real HTML `<select>` by clicking options manually, it's fragile and often fails. Use `Select(...)`. **BUT:** many modern apps (React, etc.) use *fake* dropdowns that are really styled `<div>` and `<ul>` lists, **not** `<select>`. Those you handle with normal clicks + waits. **ReagentSee is React** (per the specs), so expect a **mix** — check the actual HTML before assuming. *(How to check: right-click the dropdown in Chrome → Inspect → is the tag `<select>` or `<div>`?)*
+Trap 1 - `<select>` dropdowns need the Select class.
+If you try to handle a real HTML `<select>` by clicking options manually, it's fragile and often fails. Use Select(...). BUT: many modern apps (React, etc.) use fake dropdowns that are really styled `<div>` and `<ul>` lists, not `<select>`. Those you handle with normal clicks + waits. ReagentSee is React (per the specs), so expect a mix - check the actual HTML before assuming. (How to check: right-click the dropdown in Chrome -> Inspect -> is the tag `<select>` or `<div>`?)
 
-- **Trap 2 — Forgetting to `clear()` a field.** If a field already has text and you `send_keys`, your text gets **appended**, not replaced. For login fields that usually start empty it's fine; for pre-filled fields, `clear()` first.
+Trap 2 - Forgetting to clear() a field.
+If a field already has text and you send_keys, your text gets appended, not replaced. For login fields that usually start empty it's fine; for pre-filled fields, clear() first.
 
-- **Trap 3 — Blindly clicking a checkbox toggles it the wrong way.** If it's already checked and you click "to check it," you just **unchecked** it. Always test `is_selected()` first.
+Trap 3 - Blindly clicking a checkbox toggles it the wrong way.
+If it's already checked and you click "to check it," you just unchecked it. Always test is_selected() first.
 
-- **Trap 4 — Clicking before the element is ready.** Combine interactions with Module 2 waits: wait for `element_to_be_clickable` **before** click. On a login page, the submit button may be disabled until both fields are filled.
+Trap 4 - Clicking before the element is ready.
+Combine interactions with Module 2 waits: wait for element_to_be_clickable before click. On a login page, the submit button may be disabled until both fields are filled.
 
-- **Trap 5 — `Keys.RETURN` vs clicking a submit button.** Pressing Enter in a search box usually works, but some forms only submit via the button. If Enter does nothing, locate and `.click()` the submit button instead.
+Trap 5 - Keys.RETURN vs clicking a submit button.
+Pressing Enter in a search box usually works, but some forms only submit via the button. If Enter does nothing, locate and .click() the submit button instead.
 
-- **Trap 6 — Reading a typed value.** `element.text` does **not** return what you typed into an `<input>`. Use `element.get_attribute("value")` to read the current contents of an input field.
+Trap 6 - Reading a typed value.
+element.text does not return what you typed into an `<input>`. Use element.get_attribute("value") to read the current contents of an input field.
 
----
 
-## Mental Model (maps to ReagentSee later)
+MENTAL MODEL (MAPS TO REAGENTSEE LATER)
 
-| Task | How |
-|---|---|
-| Log in | `send_keys` username + password → click Login |
-| Set a filter | `Select` dropdown **or** click a fake-dropdown option |
-| Toggle an option | `is_selected()` check, then click if needed |
-| Run a search | `send_keys` in search box → `Keys.RETURN` or click |
-| Verify results | wait for results → read `.text` / count rows |
+- Log in: send_keys username + password -> click Login
+- Set a filter: Select dropdown or click a fake-dropdown option
+- Toggle an option: is_selected() check, then click if needed
+- Run a search: send_keys in search box -> Keys.RETURN or click
+- Verify results: wait for results -> read .text / count rows
 
----
 
-## Hands-On Practice
+HANDS-ON PRACTICE
 
-Save as `interactions.py`, venv activated:
+Save as interactions.py, venv activated:
 
 ```
 python3 FILES/interactions.py
 ```
 
-- **Part A** uses a public login form (mimics ReagentSee login).
-- **Part B** uses a page with a real `<select>` dropdown.
-- **Part C** uses checkboxes (with a wait-for-state fix).
+- Part A uses a public login form (mimics ReagentSee login).
+- Part B uses a page with a real `<select>` dropdown.
+- Part C uses checkboxes (with a wait-for-state fix).
 
 ```python
 from selenium import webdriver
@@ -179,7 +175,7 @@ for i, box in enumerate(boxes):
 driver.quit()
 ```
 
-**Expected output:**
+Expected output:
 
 ```
 Login result: You logged into a secure area!
@@ -188,31 +184,39 @@ Checkbox 1 selected? True
 Checkbox 2 selected? True
 ```
 
----
 
-## Quiz
-*(answers below — try before peeking)*
+QUIZ (answers below - try before peeking)
 
-1. You need to read back the text a user typed into a search `<input>`. Why does `element.text` not work, and what do you use?
-2. A field already contains `"old text"`. You run `field.send_keys("new text")`. What ends up in the field, and how do you get just `"new text"`?
-3. When should you use the `Select` class, and when will it **not** work (think about ReagentSee being a React app)?
-4. Write the safe way to ensure a checkbox ends up **checked**, without accidentally unchecking it if it's already checked.
-5. Two ways to submit a login form after filling the fields — name both.
+1. You need to read back the text a user typed into a search `<input>`. Why does element.text not work, and what do you use?
+
+2. A field already contains "old text". You run field.send_keys("new text"). What ends up in the field, and how do you get just "new text"?
+
+3. When should you use the Select class, and when will it not work (think about ReagentSee being a React app)?
+
+4. Write the safe way to ensure a checkbox ends up checked, without accidentally unchecking it if it's already checked.
+
+5. Two ways to submit a login form after filling the fields - name both.
+
 6. Before clicking a Login button that's disabled until both fields are filled, which Module 2 condition should you wait for, and why not just presence?
 
----
 
-## Answers
+ANSWERS
 
-1. `element.text` returns the visible text of elements like `<div>`/`<p>`, **not** the contents of an `<input>`. Use `element.get_attribute("value")` to read what's in the field.
-2. `"old textnew text"` — `send_keys` **appends**. Call `field.clear()` first, then `send_keys("new text")`.
-3. Use `Select` for real HTML `<select>` dropdowns. It will **not** work on fake dropdowns built from `<div>`/`<ul>` (common in React apps like ReagentSee) — those need normal clicks + waits. Always Inspect the element to see if the tag is `<select>`.
+1. element.text returns the visible text of elements like `<div>`/`<p>`, not the contents of an `<input>`. Use element.get_attribute("value") to read what's in the field.
+
+2. "old textnew text" - send_keys appends. Call field.clear() first, then send_keys("new text").
+
+3. Use Select for real HTML `<select>` dropdowns. It will not work on fake dropdowns built from `<div>`/`<ul>` (common in React apps like ReagentSee) - those need normal clicks + waits. Always Inspect the element to see if the tag is `<select>`.
+
 4. ```python
    if not checkbox.is_selected():
        checkbox.click()
    ```
-   *(Clicking unconditionally would toggle a checked box off.)*
-5. (1) Press Enter in a field: `field.send_keys(Keys.RETURN)`. (2) Locate and `.click()` the submit/Login button.
-6. `element_to_be_clickable` — it waits until the button is visible **and** enabled. `presence` only confirms it exists in the DOM; a disabled button exists but can't be clicked yet.
+   (Clicking unconditionally would toggle a checked box off.)
+
+5. (1) Press Enter in a field: field.send_keys(Keys.RETURN). (2) Locate and .click() the submit/Login button.
+
+6. element_to_be_clickable - it waits until the button is visible and enabled. presence only confirms it exists in the DOM; a disabled button exists but can't be clicked yet.
 
 
+End of Module 3 - Next up: Module 4, Assertions + pytest (turning scripts into real PASS/FAIL tests you can run in bulk)
