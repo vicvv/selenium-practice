@@ -1,7 +1,7 @@
-========================================================
+
 CHECKLIST — BEFORE AUTOMATING AGAINST ExampleApp DEV
 Target: https://example-app-dev.example.com/app/
-========================================================
+
 
 NETWORK ACCESS
 [ ] Onsite: reachable directly, no VPN needed.
