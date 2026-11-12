@@ -117,10 +117,10 @@ An element can exist in the page but still be invisible or not yet clickable. Th
 
 HANDS-ON PRACTICE
 
-Save as locators.py, venv activated, then run:
+Save as mod1-locators.py, venv activated, then run:
 
 ```
-python3 FILES/locators.py
+python3 FILES/mod1-locators.py
 ```
 
 ```python
