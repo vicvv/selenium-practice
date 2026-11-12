@@ -1,5 +1,5 @@
 """
-mod3-interactions.py
+mod3_interactions.py
 Selenium Module 3 — Browser Interactions practice
 (login flow, dropdown, checkboxes)
 

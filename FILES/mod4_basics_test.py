@@ -1,5 +1,5 @@
 """
-mod4-basics_test.py
+mod4_basics_test.py
 Selenium Module 4: real PASS/FAIL tests with pytest.
 
 Run from the repo root with the venv active:
