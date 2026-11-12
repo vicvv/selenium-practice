@@ -1,4 +1,4 @@
-# You already have Homebrew. Make sure Python 3 is there:
+# If you are on Mac and you already have Homebrew. Make sure Python 3 is there:
 brew install python
 
 # Create a project folder + virtual environment (keeps things clean)
