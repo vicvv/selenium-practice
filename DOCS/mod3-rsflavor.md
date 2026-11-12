@@ -1,4 +1,4 @@
-# Selenium with Python — Module 3: Browser Interactions
+## Selenium with Python — Module 3: Browser Interactions
 *(ExampleApp-flavored: login + search patterns)*
 
 ## Goal
