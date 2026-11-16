@@ -1,0 +1,5 @@
+case,username,password,expected
+wrong-password,tomsmith,wrong-password,Your password is invalid!
+empty-password,tomsmith,,Your password is invalid!
+unknown-user,nobody,SuperSecretPassword!,Your username is invalid!
+empty-username,,SuperSecretPassword!,Your username is invalid!
