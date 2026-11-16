@@ -246,6 +246,10 @@ FOR YOUR OWN APP LATER
 - Confirmation popups such as "Are you sure you want to delete?" are usually HTML dialogs (Trap 3), not browser alerts. Inspect before choosing an approach.
 
 
+git add DOCS/mod6_tricky-elements.md FILES/mod6_pages.py FILES/mod6_tricky_test.py
+git commit -m "Module 6: alerts, frames, windows, file uploads"
+git push
+
 QUIZ (answers below - try before peeking)
 
 1. You click a button, a browser alert appears, and your next find_element call raises UnexpectedAlertPresentException. Why, and what do you do?
