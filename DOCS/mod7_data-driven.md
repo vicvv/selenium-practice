@@ -263,7 +263,7 @@ QUIZ (answers below - try before peeking)
 
 4. Why does the test file load the CSV with Path(__file__).parent instead of open("mod7_login_cases.csv")?
 
-5. One CSV row is "tomsmith, wrong-password,Your password is invalid!". The test still passes. Why is this row still a problem?
+5. One CSV row is "wrong-password,tomsmith, wrong-password,Your password is invalid!". The test still passes. Why is this row still a problem?
 
 6. Why give each case an id with pytest.param?
 
@@ -280,7 +280,7 @@ ANSWERS
 
 4. A relative path is looked up from the folder you ran pytest in, not the folder of the test file, so it fails with FileNotFoundError when you run from the repo root. Path(__file__).parent always points at the test file's folder, on any machine.
 
-5. The space after the comma makes the password " wrong-password", not "wrong-password". It still fails to log in, so the test passes, but it is testing a different input from the one you meant. That can hide a gap in your coverage.
+5. The space after the second comma makes the password " wrong-password", not "wrong-password". It still fails to log in, so the test passes, but it is testing a different input from the one you meant. That can hide a gap in your coverage.
 
 6. So the test names in the output are short and readable, so a failure tells you straight away which case broke, and so you can run selected cases with -k.
 
