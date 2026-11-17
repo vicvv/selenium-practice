@@ -10,6 +10,9 @@ Options:
 
 When a test fails, a screenshot and the page HTML are saved in
 the screenshots/ folder in the repo root (that folder is in .gitignore).
+
+Each HTML report gets its own name with the date and time, in the
+reports/ folder in the repo root (that folder is in .gitignore).
 """
 
 import logging
@@ -22,7 +25,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 WINDOW_SIZE = "1280,800"
-SCREENSHOT_DIR = Path(__file__).resolve().parent.parent / "screenshots"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+SCREENSHOT_DIR = REPO_ROOT / "screenshots"
+REPORT_DIR = REPO_ROOT / "reports"
 
 logger = logging.getLogger(__name__)
 
@@ -34,6 +39,18 @@ def pytest_addoption(parser):
         default=False,
         help="Run Chrome without a visible window",
     )
+
+
+@pytest.hookimpl(tryfirst=True)
+def pytest_configure(config):
+    """Give each HTML report its own name with the date and time.
+    Only the default name from pytest.ini (report.html) is changed.
+    A name typed in the command, like --html=my-report.html, is kept."""
+    html_path = getattr(config.option, "htmlpath", None)
+    if html_path == "report.html":
+        REPORT_DIR.mkdir(exist_ok=True)
+        stamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        config.option.htmlpath = str(REPORT_DIR / f"report_{stamp}.html")
 
 
 @pytest.hookimpl(wrapper=True, tryfirst=True)
