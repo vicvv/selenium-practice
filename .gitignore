@@ -13,3 +13,6 @@ __pycache__/
 .vscode/
 .idea/
 .pytest_cache/
+screenshots/
+report.html
+test-run.log
