@@ -250,6 +250,8 @@ export TEST_PASSWORD='SuperSecretPassword!'
 The two certificate tests depend on badssl.com, a public site. If it is down, those two tests fail even though your code is fine. If your Chrome is set to another language, the "Privacy error" title is translated and the blocked-certificate test fails.
 
 
+export TEST_USER=tomsmith
+
 MENTAL MODEL
 
 - Options: set before the browser starts, in conftest.py.
