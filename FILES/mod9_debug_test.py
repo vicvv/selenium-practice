@@ -25,7 +25,10 @@ def test_login_with_logged_steps(driver):
 
     logger.info("Checking the secure area")
     assert secure.is_loaded()
+    
     assert "You logged into a secure area!" in secure.flash_text()
+
+    #assert "Welcome!" in secure.flash_text()
 
 
 def test_screenshot_can_be_saved(driver, tmp_path):
