@@ -176,7 +176,11 @@ git add .github/workflows/mod10_selenium-tests.yml FILES/mod10_smoke_test.py DOC
 git commit -m "Module 10: run tests on GitHub Actions"
 git push
 ```
-
+if you do not have anything to push run the following:
+```
+git commit --allow-empty -m "Run tests again"
+git push
+```
 5. Open the repo on GitHub, then the Actions tab. A run starts within a few seconds. Click it and watch the steps. Expect a green check after a few minutes. Download the test-reports artifact and open a report.
 
 Break it on purpose (this step is MEANT to fail):
