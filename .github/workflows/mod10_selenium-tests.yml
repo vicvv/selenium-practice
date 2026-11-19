@@ -1,0 +1,62 @@
+# mod10_selenium-tests.yml
+# Runs the Selenium tests on GitHub Actions on every push to main,
+# on every pull request, and by hand from the Actions tab.
+
+name: Selenium tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    env:
+      TEST_USER: ${{ secrets.TEST_USER }}
+      TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
+
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+          cache: pip
+
+      - name: Install packages
+        run: pip install -r requirements.txt
+
+      - name: Smoke tests
+        run: python -m pytest FILES/ --headless -m smoke
+
+      - name: All other tests
+        run: python -m pytest FILES/ --headless -m "not smoke"
+
+      - name: Save reports and log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: |
+            reports/
+            test-run.log
+          retention-days: 7
+          if-no-files-found: ignore
+
+      - name: Save failure screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: failure-screenshots
+          path: screenshots/
+          retention-days: 7
+          if-no-files-found: ignore
