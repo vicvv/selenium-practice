@@ -1,12 +1,10 @@
 SELENIUM WITH PYTHON - MODULE 3: BROWSER INTERACTIONS
-(ExampleApp-flavored: login + search patterns)
-
 
 GOAL
 
 Learn the core ways to interact with page elements beyond typing: clicks, clearing fields, dropdowns, checkboxes, radio buttons, and keyboard keys (like Enter to submit a search).
 
-We practice on public sites, but the patterns are exactly what you'll use on ExampleApp dev later (log in, pick filters, run a search).
+We practice on public sites, but the patterns are the same ones you will use on most web apps: log in, pick filters, run a search.
 
 
 THE INTERACTION TOOLKIT
@@ -84,7 +82,7 @@ driver.find_element(By.CSS_SELECTOR, "input[value='barcode']").click()
 WHY IT MATTERS / TRAPS (READ THIS PART!)
 
 Trap 1 - `<select>` dropdowns need the Select class.
-If you try to handle a real HTML `<select>` by clicking options manually, it's fragile and often fails. Use Select(...). BUT: many modern apps (React, etc.) use fake dropdowns that are really styled `<div>` and `<ul>` lists, not `<select>`. Those you handle with normal clicks + waits. ExampleApp is React (per the specs), so expect a mix - check the actual HTML before assuming. (How to check: right-click the dropdown in Chrome -> Inspect -> is the tag `<select>` or `<div>`?)
+If you try to handle a real HTML `<select>` by clicking options manually, it's fragile and often fails. Use Select(...). BUT: many modern apps (built with React and similar frameworks) use custom dropdowns that are really styled `<div>` and `<ul>` lists, not `<select>`. Those you handle with normal clicks + waits. Many apps have both kinds, so check the actual HTML before assuming. (How to check: right-click the dropdown in Chrome -> Inspect -> is the tag `<select>` or `<div>`?)
 
 Trap 2 - Forgetting to clear() a field.
 If a field already has text and you send_keys, your text gets appended, not replaced. For login fields that usually start empty it's fine; for pre-filled fields, clear() first.
@@ -101,11 +99,14 @@ Pressing Enter in a search box usually works, but some forms only submit via the
 Trap 6 - Reading a typed value.
 element.text does not return what you typed into an `<input>`. Use element.get_attribute("value") to read the current contents of an input field.
 
+Trap 7 - Checking a result too soon after an action.
+A click can take a moment to register. Reading is_selected() straight after clicking can still return the old state, so a checkbox you just checked reports False. Wait for the new state before checking it (Part C of the practice does this). Don't assume an action's result is instant: wait for the expected state.
 
-MENTAL MODEL (MAPS TO ExampleApp LATER)
+
+MENTAL MODEL
 
 - Log in: send_keys username + password -> click Login
-- Set a filter: Select dropdown or click a fake-dropdown option
+- Set a filter: Select dropdown or click a custom-dropdown option
 - Toggle an option: is_selected() check, then click if needed
 - Run a search: send_keys in search box -> Keys.RETURN or click
 - Verify results: wait for results -> read .text / count rows
@@ -113,13 +114,13 @@ MENTAL MODEL (MAPS TO ExampleApp LATER)
 
 HANDS-ON PRACTICE
 
-Save as mod3-interactions.py, venv activated:
+Save as mod3_interactions.py, venv activated:
 
 ```
-python3 FILES/mod3-interactions.py
+python3 FILES/mod3_interactions.py
 ```
 
-- Part A uses a public login form (mimics ExampleApp login).
+- Part A uses a public login form.
 - Part B uses a page with a real `<select>` dropdown.
 - Part C uses checkboxes (with a wait-for-state fix).
 
@@ -174,6 +175,8 @@ for i, box in enumerate(boxes):
 driver.quit()
 ```
 
+The WebDriverWait line in Part C waits until each checkbox actually reports selected before printing. Without it, a checkbox you just clicked can still print False (Trap 7). The lambda is a small custom wait condition: "keep checking until b.is_selected() is True". b=box pins the current checkbox, so the loop does not mix them up.
+
 Expected output:
 
 ```
@@ -183,6 +186,15 @@ Checkbox 1 selected? True
 Checkbox 2 selected? True
 ```
 
+The script runs in a few seconds, which is hard to watch. FILES/mod3_interactions_slow.py is the same script with short time.sleep() pauses, so you can see each step. Those sleeps are for watching only, never for real tests (Module 2).
+
+
+FOR YOUR OWN APP LATER
+
+- Login screens, filters and search boxes in internal web apps use the same patterns as this module.
+- Many apps use custom dropdowns, not `<select>` (Trap 1). Inspect each dropdown before choosing an approach.
+- Filters that refresh results without reloading the page need a wait for the new results before you check them (Trap 7).
+
 
 QUIZ (answers below - try before peeking)
 
@@ -190,7 +202,7 @@ QUIZ (answers below - try before peeking)
 
 2. A field already contains "old text". You run field.send_keys("new text"). What ends up in the field, and how do you get just "new text"?
 
-3. When should you use the Select class, and when will it not work (think about ExampleApp being a React app)?
+3. When should you use the Select class, and when will it not work (think about apps built with modern frameworks such as React)?
 
 4. Write the safe way to ensure a checkbox ends up checked, without accidentally unchecking it if it's already checked.
 
@@ -205,7 +217,7 @@ ANSWERS
 
 2. "old textnew text" - send_keys appends. Call field.clear() first, then send_keys("new text").
 
-3. Use Select for real HTML `<select>` dropdowns. It will not work on fake dropdowns built from `<div>`/`<ul>` (common in React apps like ExampleApp) - those need normal clicks + waits. Always Inspect the element to see if the tag is `<select>`.
+3. Use Select for real HTML `<select>` dropdowns. It will not work on custom dropdowns built from `<div>`/`<ul>` (common in apps built with React and similar frameworks) - those need normal clicks + waits. Always Inspect the element to see if the tag is `<select>`.
 
 4. ```python
    if not checkbox.is_selected():

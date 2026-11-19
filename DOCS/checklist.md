@@ -1,18 +1,18 @@
-CHECKLIST - BEFORE AUTOMATING AGAINST ExampleApp DEV
+CHECKLIST - BEFORE AUTOMATING AGAINST  DEV TARGET
 
-Target: https://example-app-dev.example.com/app/
+Target: https://targeturl
 
 
 NETWORK ACCESS
 
 - [ ] Onsite: reachable directly, no VPN needed.
-- [ ] Offsite: connect the company VPN VPN FIRST, then run tests.
+- [ ] Offsite: connect VPN FIRST, then run tests.
 - [ ] Sanity check: can I open the URL in a normal Chrome window right now? (If yes, Selenium can reach it too.)
 
 
 PERMISSION / POLICY (do this BEFORE pointing automation at it)
 
-- [ ] Confirmed with the system owner (my team / ExampleApp devs / ExampleVendor) that automated Selenium traffic against the DEV instance is OK.
+- [ ] Confirmed with the system owner  that automated Selenium traffic against the DEV instance is OK.
 - [ ] Confirmed I'm only hitting DEV, never a production instance.
 - [ ] Confirmed no sensitive/real data is at risk.
 
