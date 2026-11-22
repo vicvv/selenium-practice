@@ -3,7 +3,7 @@ mod4_basics_test.py
 Selenium Module 4: real PASS/FAIL tests with pytest.
 
 Run from the repo root with the venv active:
-    python3 -m pytest FILES/ -v
+    python3 -m pytest tests/ -v
 """
 
 from selenium.webdriver.common.by import By

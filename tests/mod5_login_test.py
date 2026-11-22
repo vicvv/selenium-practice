@@ -4,7 +4,7 @@ Selenium Module 5: tests that use page objects.
 No locators in this file - they all live in mod5_pages.py.
 
 Run from the repo root with the venv active:
-    python3 -m pytest FILES/mod5_login_test.py -v
+    python3 -m pytest tests/mod5_login_test.py -v
 """
 
 from selenium_practice.pages.mod5_pages import LoginPage

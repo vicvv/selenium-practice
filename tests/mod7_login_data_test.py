@@ -3,11 +3,12 @@ mod7_login_data_test.py
 Selenium Module 7: data-driven tests with pytest parametrize.
 One test function runs once per case. Each case gets its own browser.
 
-Uses LoginPage from mod5_pages.py and data from mod7_login_cases.csv,
-both in the same folder as this file.
+Uses LoginPage from the selenium_practice package
+(src/selenium_practice/pages/mod5_pages.py) and test data from
+mod7_login_cases.csv, which sits in the same folder as this file (tests/).
 
 Run from the repo root with the venv active:
-    python3 -m pytest FILES/mod7_login_data_test.py -v
+    python3 -m pytest tests/mod7_login_data_test.py -v
 """
 
 import csv

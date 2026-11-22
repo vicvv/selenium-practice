@@ -4,8 +4,8 @@ Selenium Module 8: window size, certificate errors, and credentials
 read from environment variables.
 
 Run from the repo root with the venv active:
-    python3 -m pytest FILES/mod8_settings_test.py -v -rs
-    python3 -m pytest FILES/mod8_settings_test.py -v --headless
+    python3 -m pytest tests/mod8_settings_test.py -v -rs
+    python3 -m pytest tests/mod8_settings_test.py -v --headless
 
 The login test needs these set in the terminal first:
     export TEST_USER=tomsmith

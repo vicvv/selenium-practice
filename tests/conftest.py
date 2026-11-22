@@ -5,8 +5,8 @@ pytest loads this file automatically, so tests never import it.
 Keep this exact file name - pytest will not find it otherwise.
 
 Options:
-    python3 -m pytest FILES/ -v               # with a window (default)
-    python3 -m pytest FILES/ -v --headless    # without a window
+    python3 -m pytest tests/ -v               # with a window (default)
+    python3 -m pytest tests/ -v --headless    # without a window
 
 When a test fails, a screenshot and the page HTML are saved in
 the screenshots/ folder in the repo root (that folder is in .gitignore).

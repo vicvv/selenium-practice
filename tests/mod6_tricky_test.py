@@ -4,7 +4,7 @@ Selenium Module 6: tests for alerts, frames, windows and file uploads.
 No locators and no switch_to calls here - they live in mod6_pages.py.
 
 Run from the repo root with the venv active:
-    python3 -m pytest FILES/mod6_tricky_test.py -v
+    python3 -m pytest tests/mod6_tricky_test.py -v
 """
 
 from selenium_practice.pages.mod6_pages import AlertsPage, NestedFramesPage, WindowsPage, UploadPage

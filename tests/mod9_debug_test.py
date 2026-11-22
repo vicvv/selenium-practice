@@ -3,7 +3,7 @@ mod9_debug_test.py
 Selenium Module 9: logging, screenshots and page source.
 
 Run from the repo root with the venv active:
-    python3 -m pytest FILES/mod9_debug_test.py -v --log-cli-level=INFO
+    python3 -m pytest tests/mod9_debug_test.py -v --log-cli-level=INFO
 """
 
 import logging

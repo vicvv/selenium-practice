@@ -3,9 +3,10 @@ mod6_pages.py
 Selenium Module 6: page objects for alerts, frames, windows and file uploads,
 using the public practice site the-internet.herokuapp.com.
 
-BasePage and BASE_URL come from Module 5 (mod5_pages.py), so that file must
-be in the same folder. All switching (alerts, frames, windows) happens inside
-these classes. Tests never call switch_to.
+Part of the selenium_practice package. BasePage and BASE_URL come from the
+Module 5 page objects in the same package (selenium_practice.pages.mod5_pages).
+All switching (alerts, frames, windows) happens inside these classes.
+Tests never call switch_to.
 """
 
 from selenium.webdriver.common.by import By
