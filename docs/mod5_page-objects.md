@@ -31,9 +31,9 @@ The second one reads like the user's steps.
 
 THE THREE PARTS
 
-- conftest.py - provides the browser (from Module 4, unchanged)
-- mod5_pages.py - page objects: locators and actions, no asserts
-- mod5_login_test.py - tests: call actions, assert results, no locators
+- tests/conftest.py - provides the browser (the driver fixture from Module 4)
+- src/selenium_practice/pages/mod5_pages.py - page objects: locators and actions, no asserts
+- tests/mod5_login_test.py - tests: call actions, assert results, no locators
 
 The rule to remember: page objects know HOW to do things. Tests know WHAT should be true.
 
@@ -111,7 +111,7 @@ login() (no return) is for cases where the user stays on the login page, for exa
 USING PAGE OBJECTS IN A TEST
 
 ```python
-from mod5_pages import LoginPage
+from selenium_practice.pages.mod5_pages import LoginPage
 
 def test_wrong_password_shows_error(driver):
     login_page = LoginPage(driver).open()
@@ -123,18 +123,58 @@ def test_wrong_password_shows_error(driver):
 No By, no find_element, no waits in the test. Only steps and asserts.
 
 
-FILE NAMING NOTE: WHY UNDERSCORES
+WHERE THE PAGE OBJECTS LIVE: THE SELENIUM_PRACTICE PACKAGE
 
-All module files use an underscore after the module number (mod5_pages.py, mod5_login_test.py). The reason: a test file has to import the page objects file, and an import line cannot contain a dash. Python reads a dash as a minus sign:
+The page objects are not next to the tests. They live in a real Python package:
 
-```python
-from mod5-pages import LoginPage     # SyntaxError
-from mod5_pages import LoginPage     # works
+```
+src/
+    selenium_practice/          the package
+        __init__.py
+        pages/
+            __init__.py
+            mod5_pages.py       BasePage, LoginPage, SecureAreaPage
+            mod6_pages.py       Module 6 page objects
 ```
 
-How does the test find mod5_pages.py? When pytest loads a test file, it adds that file's folder (tests/) to Python's search path, so a plain import works when you run pytest from the repo root.
+- Each __init__.py marks its folder as a Python package. They can be almost empty.
+- pyproject.toml in the repo root describes the package, so pip can install it.
+- The import path follows the folders: selenium_practice.pages.mod5_pages means src/selenium_practice/pages/mod5_pages.py.
 
-VS Code may underline the import line in yellow because it does not know about that pytest behavior. The tests still run fine.
+The package is installed in editable mode, from the repo root, with the venv active:
+
+```
+pip install -e .
+```
+
+pip install -r requirements.txt does the same, because its last line is -e .
+
+- The dot means "the package in this folder".
+- -e (editable) means Python reads the files straight from src/. A change to a page object takes effect on the next run, with no reinstall.
+- The install creates a src/selenium_practice.egg-info/ folder. It is in .gitignore and must never be committed.
+
+Check that it is installed:
+
+```
+python -c "import selenium_practice.pages.mod5_pages; print('import OK')"
+```
+
+Why a package, instead of keeping the page objects next to the tests:
+
+- The import works the same way whichever folder you run pytest from, because Python finds the installed package, not a file that happens to sit in the current folder.
+- Other code can reuse the page objects. mod6_pages.py imports BasePage from here, and another project could install the package straight from GitHub.
+- Tests and reusable code are clearly separated: tests/ only holds tests.
+
+Why the file names still use underscores: a dash in a module name breaks the import. Python reads the dash as a minus sign:
+
+```python
+from selenium_practice.pages.mod5-pages import LoginPage   # SyntaxError
+from selenium_practice.pages.mod5_pages import LoginPage   # works
+```
+
+The same is true for the package itself: the project is called selenium-practice, with a dash, but the import name is selenium_practice, with an underscore.
+
+VS Code: if the import line is underlined in yellow, VS Code is using a different Python. Press Cmd+Shift+P, choose "Python: Select Interpreter", and pick the one in venv. This only affects VS Code's suggestions, not how the tests run.
 
 
 WHY IT MATTERS / TRAPS (READ THIS PART!)
@@ -145,8 +185,8 @@ A page object that asserts decides what "correct" means, so every test that uses
 Trap 2 - Locators leaking into tests.
 One driver.find_element(By.ID, ...) in a test file brings the old problem back: a renamed field now breaks a test that the page object fix will not repair. If a test needs something new from a page, add a method to the page object.
 
-Trap 3 - A dash in an imported file name.
-"from mod5-pages import LoginPage" fails with a SyntaxError. Any .py file that another file imports must have no dashes in its name. Using underscores for all files avoids the problem.
+Trap 3 - A dash in an imported name.
+"from selenium_practice.pages.mod5-pages import LoginPage" fails with a SyntaxError. Any file or folder that is imported must have no dashes in its name.
 
 Trap 4 - Reading the old page after navigation.
 Right after clicking Logout, the old page's flash banner can still be found for a moment, so you would read "You logged into a secure area!" instead of "You logged out of the secure area!". The fix: the page object waits for the URL to change (EC.url_contains) before returning the next page. Same lesson as the Module 3 checkboxes: wait for the result before you read it. Doing it inside the page object means no test ever has to remember.
@@ -160,46 +200,58 @@ One class for the whole app becomes impossible to maintain. Use one class per pa
 Trap 7 - Running a test file with python3.
 python3 tests/mod5_login_test.py does nothing useful: the file only defines functions, and nothing provides the driver fixture. Test files always run through pytest.
 
+Trap 8 - The package is not installed.
+Every test that imports a page object fails with "ModuleNotFoundError: No module named 'selenium_practice'". Usual causes: the venv is not active, a new venv was created, or a fresh clone skipped the install. Activate the venv and run pip install -e . (or pip install -r requirements.txt).
+
 
 READING A PAGE OBJECT FAILURE
 
 When a locator is wrong, the error is usually a TimeoutException, and the traceback goes through two files:
 
-- The line in mod5_login_test.py tells you which test and which step failed.
-- The line in mod5_pages.py tells you which method and which locator timed out.
+- The line in tests/mod5_login_test.py tells you which test and which step failed.
+- The line in src/selenium_practice/pages/mod5_pages.py tells you which method and which locator timed out.
 
 Read the traceback from the bottom up: the last lines show where it actually broke.
 
 
 HANDS-ON PRACTICE
 
-Files (all in tests/):
+Files:
 
-- conftest.py - unchanged from Module 4
-- mod5_pages.py - BasePage, LoginPage, SecureAreaPage
-- mod5_login_test.py - four tests: valid login, wrong password, unknown username, logout
+- tests/conftest.py - the driver fixture
+- src/selenium_practice/pages/mod5_pages.py - BasePage, LoginPage, SecureAreaPage
+- tests/mod5_login_test.py - four tests: valid login, wrong password, unknown username, logout
 
-Run only the Module 5 tests:
+1. Check the package is installed:
+
+```
+python -c "import selenium_practice.pages.mod5_pages; print('import OK')"
+```
+
+2. Run only the Module 5 tests:
 
 ```
 python3 -m pytest tests/mod5_login_test.py -v
 ```
 
-Run everything (Module 4 and Module 5, 7 tests):
+   Expect 4 passed.
+
+3. Run everything:
 
 ```
-python3 -m pytest tests/ -v
+python3 -m pytest -v
 ```
 
 Break it on purpose (this step is MEANT to fail):
 
-1. In mod5_pages.py, change
+1. In src/selenium_practice/pages/mod5_pages.py, line 52, change
    USERNAME = (By.ID, "username")
    to
    USERNAME = (By.ID, "user-name")
+   To confirm the line number: grep -n "USERNAME = " src/selenium_practice/pages/mod5_pages.py
 2. Run the Module 5 tests. All 4 fail with TimeoutException, about 10 seconds each, because every test goes through LoginPage.open().
-3. Look at the traceback: it points to open() in mod5_pages.py.
-4. Change the line back. One edit, and all 4 pass again.
+3. Look at the traceback: it points to open() in src/selenium_practice/pages/mod5_pages.py. Because the package is installed in editable mode, your change took effect without reinstalling.
+4. Change line 52 back. One edit, and all 4 pass again.
 
 That is the whole point of page objects: many tests break, but there is only one place to fix.
 
@@ -212,6 +264,7 @@ MENTAL MODEL
   Now: tests read like the user's steps.
 - Before: a renamed field means many fixes.
   Now: a renamed field means one fix.
+- Page objects live in the selenium_practice package, tests live in tests/.
 - Page objects: how to do things. Tests: what should be true.
 
 
@@ -229,7 +282,7 @@ QUIZ (answers below - try before peeking)
 2. Where does this line belong, in a page object or in a test, and why?
    assert "Welcome" in flash.text
 
-3. Why does "from mod5-pages import LoginPage" fail?
+3. Why does "from selenium_practice.pages.mod5-pages import LoginPage" fail?
 
 4. Why does logout() wait for the URL to contain "/login" before returning a LoginPage? What could go wrong without it?
 
@@ -237,16 +290,18 @@ QUIZ (answers below - try before peeking)
 
 6. You find driver.find_element(By.ID, "username") in a test file. What is wrong, and how do you fix it?
 
-7. DevOps stretch question: a developer's pull request renames the username field. How could your team find out BEFORE the change is merged, not after? (Covered in Module 10. Just guess.)
+7. After cloning the repo on a new Mac and creating a venv, every Module 5 test fails with "No module named 'selenium_practice'". What did you forget?
+
+8. DevOps stretch question: a developer's pull request renames the username field. How could your team find out BEFORE the change is merged, not after? (Covered in Module 10. Just guess.)
 
 
 ANSWERS
 
-1. One place: the PASSWORD locator in mod5_pages.py. Every test uses LoginPage, so all 30 are fixed at once.
+1. One place: the PASSWORD locator in src/selenium_practice/pages/mod5_pages.py. Every test uses LoginPage, so all 30 are fixed at once.
 
 2. In a test. Page objects say how to do things. Tests decide what should be true. The page object should provide flash_text(), and the test asserts on it.
 
-3. Python reads the dash as a minus sign, so it is a syntax error. Files that other files import must not have dashes in their names (mod5_pages.py).
+3. Python reads the dash as a minus sign, so it is a syntax error. Anything that is imported must have no dashes in its name (mod5_pages, selenium_practice).
 
 4. Right after the click, the old page can still be on screen for a moment. Without the wait, flash_text() could read the old banner ("You logged into a secure area!") and the test would fail, or worse, pass for the wrong reason. Waiting for the URL change makes sure you read the new page.
 
@@ -254,7 +309,9 @@ ANSWERS
 
 6. A locator has leaked into the test. If the field is renamed, the page object fix will not repair this test. Add a method to LoginPage for whatever the test needs, and call that method instead.
 
-7. Run the Selenium tests automatically in CI (for example GitHub Actions) on every pull request. The tests fail, the pull request shows a red check, and with branch protection requiring that check to pass, it cannot be merged until the page object locator is updated too, usually in the same pull request.
+7. Installing the package. The venv is new, so it does not contain selenium_practice yet. With the venv active, run pip install -r requirements.txt, which installs the pinned packages and, because of its -e . line, the package too.
+
+8. Run the Selenium tests automatically in CI (for example GitHub Actions) on every pull request. The tests fail, the pull request shows a red check, and with branch protection requiring that check to pass, it cannot be merged until the page object locator is updated too, usually in the same pull request.
 
 
 End of Module 5. Next up: Module 6, tricky elements (alerts, iframes, multiple tabs and windows, file uploads).
