@@ -5,7 +5,7 @@ WHAT IT IS
 
 pytest.ini is a settings file for pytest. pytest reads it at the start of every run, so options you would otherwise type every time can be written there once.
 
-- It lives in the repo root, next to FILES/ and DOCS/, not inside FILES/.
+- It lives in the repo root, next to tests/ and docs/, not inside tests/.
 - It must keep this exact name, with no module prefix (like conftest.py).
 - It holds no secrets, so it belongs in the repo. Anyone who clones the repo gets the same settings.
 
@@ -14,8 +14,8 @@ THE FILE
 
 ```
 [pytest]
-# Where the tests are, so "python3 -m pytest" works without FILES/
-testpaths = FILES
+# Where the tests are, so "python3 -m pytest" works without tests/
+testpaths = tests
 
 # Options added to every run
 addopts = -v -ra --strict-markers --html=report.html --self-contained-html
@@ -37,8 +37,8 @@ To create it from the terminal instead of VS Code:
 cd ~/Documents/selenium-practice
 cat > pytest.ini << 'EOF'
 [pytest]
-# Where the tests are, so "python3 -m pytest" works without FILES/
-testpaths = FILES
+# Where the tests are, so "python3 -m pytest" works without tests/
+testpaths = tests
 
 # Options added to every run
 addopts = -v -ra --strict-markers --html=report.html --self-contained-html
@@ -63,8 +63,8 @@ WHAT EACH SETTING DOES
 [pytest]
   The first line. It tells pytest the settings below are for pytest.
 
-testpaths = FILES
-  Where the tests live. From the repo root, "python3 -m pytest" is enough, without FILES/. It also stops pytest from searching other folders.
+testpaths = tests
+  Where the tests live. From the repo root, "python3 -m pytest" is enough, without tests/. It also stops pytest from searching other folders.
 
 addopts
   Options added to every pytest command:
@@ -88,7 +88,7 @@ COMMANDS THAT GET SHORTER
 Before:
 
 ```
-python3 -m pytest FILES/ -v -rs --html=report.html --self-contained-html
+python3 -m pytest tests/ -v -rs --html=report.html --self-contained-html
 ```
 
 Now:
@@ -101,7 +101,7 @@ You can still add options when you need them, and the old commands in the notes 
 
 ```
 python3 -m pytest --headless                      # without a window
-python3 -m pytest FILES/mod8_settings_test.py     # one file
+python3 -m pytest tests/mod8_settings_test.py     # one file
 python3 -m pytest -k login                        # only matching tests
 python3 -m pytest --log-cli-level=INFO            # live log on screen as well
 ```
@@ -115,8 +115,8 @@ Both files are created in the folder you run pytest from. All the commands in th
 
 ```
 ~/Documents/selenium-practice/
-    DOCS/
-    FILES/
+    docs/
+    tests/
     screenshots/      <- only after a test fails
     pytest.ini
     report.html       <- every run
@@ -146,7 +146,7 @@ testpaths = tests
 Several folders, separated by spaces:
 
 ```
-testpaths = FILES tests
+testpaths = tests tests
 ```
 
 If testpaths does not match, a plain "python3 -m pytest" does not run the tests you expect. Naming the folder in the command still works, because a path in the command overrides testpaths.
@@ -157,10 +157,10 @@ Nothing else depends on the name FILES:
 - The Module 7 CSV file is found from the test file's location.
 - Imports like "from mod5_pages import LoginPage" work in any folder, because pytest adds the test file's folder to Python's search path.
 
-The only other places that say FILES/ are the commands in the notes. Find them with:
+The only other places that say tests/ are the commands in the notes. Find them with:
 
 ```
-git grep -n "FILES/"
+git grep -n "tests/"
 ```
 
 Many Python projects call this folder tests. Renaming it (git mv FILES tests) is optional.
@@ -172,16 +172,16 @@ Trap 1 - A comment at the end of a line.
 pytest.ini does not allow comments after a setting on the same line. The comment is read as part of the setting and breaks it. Put each comment on its own line, starting with #.
 
 Trap 2 - --headless in addopts.
---headless is defined in FILES/conftest.py, and pytest reads pytest.ini before that file is loaded. The run stops with "unrecognized arguments: --headless". It would also hide the browser on every run. Type --headless in the command when you want it.
+--headless is defined in tests/conftest.py, and pytest reads pytest.ini before that file is loaded. The run stops with "unrecognized arguments: --headless". It would also hide the browser on every run. Type --headless in the command when you want it.
 
 Trap 3 - "unrecognized arguments: --headless" with a short command.
-python3 -m pytest --headless should work, because testpaths points pytest at FILES/ and its conftest.py. If your pytest version still stops with this error, put FILES/ in the command: python3 -m pytest FILES/ --headless. That always works (Module 8, Trap 2).
+python3 -m pytest --headless should work, because testpaths points pytest at tests/ and its conftest.py. If your pytest version still stops with this error, put tests/ in the command: python3 -m pytest tests/ --headless. That always works (Module 8, Trap 2).
 
 Trap 4 - The file in the wrong place.
-pytest looks for pytest.ini in the folder you run from and the folders above it. Inside FILES/, it is found only when you run from FILES/. Keep it in the repo root.
+pytest looks for pytest.ini in the folder you run from and the folders above it. Inside tests/, it is found only when you run from tests/. Keep it in the repo root.
 
 Trap 5 - Running pytest from another folder.
-The report and log are created in the folder you run from. Run from inside FILES/ and they land in FILES/, where .gitignore does not cover them by name. Always run from the repo root.
+The report and log are created in the folder you run from. Run from inside tests/ and they land in tests/, where .gitignore does not cover them by name. Always run from the repo root.
 
 Trap 6 - Forgetting the report is overwritten.
 Running one test to check a fix replaces the full report from the last complete run. Use a different --html name in the command to keep a report.
@@ -211,7 +211,7 @@ open test-run.log
 COMMIT
 
 ```
-git add pytest.ini DOCS/mod9_pytest-ini.md
+git add pytest.ini docs/mod9_pytest-ini.md
 git commit -m "pytest.ini and notes"
 git push
 ```

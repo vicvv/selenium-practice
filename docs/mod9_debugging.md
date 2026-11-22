@@ -62,7 +62,7 @@ Notes:
 - pip only works with the venv active. Outside it, "pip" is usually not found on a Mac (setup notes).
 - If pip prints "A new release of pip is available", that is only a notice. You can ignore it, or update pip with: pip install --upgrade pip
 
-The pytest.ini file in the repo root makes the HTML report and the log file happen on every run, with nothing extra to type. See DOCS/mod9_pytest-ini.md.
+The pytest.ini file in the repo root makes the HTML report and the log file happen on every run, with nothing extra to type. See docs/mod9_pytest-ini.md.
 
 
 PART 1 - SCREENSHOTS ON FAILURE
@@ -230,7 +230,7 @@ The folder is created again on the next run.
 THE FILES
 
 - conftest.py - replaced: everything from Module 8, plus the hook, screenshots on failure, and dated report names
-- pytest.ini - in the repo root: default options, the report, the log file (see DOCS/mod9_pytest-ini.md)
+- pytest.ini - in the repo root: default options, the report, the log file (see docs/mod9_pytest-ini.md)
 - mod9_debug_test.py - 3 tests: a login with logged steps, saving a screenshot by hand, checking the page source
 
 
@@ -268,7 +268,7 @@ Do the one-time setup, and make sure conftest.py and pytest.ini are the current 
 1. Run the Module 9 tests with the live log:
 
 ```
-python3 -m pytest FILES/mod9_debug_test.py --log-cli-level=INFO
+python3 -m pytest tests/mod9_debug_test.py --log-cli-level=INFO
 ```
 
    Expect 3 passed, with the log messages printed as each test runs. No screenshot is saved, because nothing failed.
@@ -276,7 +276,7 @@ python3 -m pytest FILES/mod9_debug_test.py --log-cli-level=INFO
 2. Run everything headless and open the report:
 
 ```
-python3 -m pytest FILES/ --headless
+python3 -m pytest tests/ --headless
 open "$(ls -t reports/*.html | head -1)"
 ```
 
@@ -284,15 +284,15 @@ open "$(ls -t reports/*.html | head -1)"
 
 Break it on purpose (this step is MEANT to fail):
 
-1. In FILES/mod9_debug_test.py, line 28, change
+1. In tests/mod9_debug_test.py, line 28, change
    assert "You logged into a secure area!" in secure.flash_text()
    to
    assert "Welcome!" in secure.flash_text()
-   To confirm the line number: grep -n "secure area!" FILES/mod9_debug_test.py
+   To confirm the line number: grep -n "secure area!" tests/mod9_debug_test.py
 2. Run it headless, with the live log:
 
 ```
-python3 -m pytest FILES/mod9_debug_test.py --headless --log-cli-level=INFO -k logged
+python3 -m pytest tests/mod9_debug_test.py --headless --log-cli-level=INFO -k logged
 ```
 
 3. Collect the evidence:

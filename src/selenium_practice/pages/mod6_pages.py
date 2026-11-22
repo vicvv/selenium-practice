@@ -11,7 +11,7 @@ these classes. Tests never call switch_to.
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
-from mod5_pages import BasePage, BASE_URL
+from selenium_practice.pages.mod5_pages import BasePage, BASE_URL
 
 
 class AlertsPage(BasePage):

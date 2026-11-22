@@ -15,7 +15,7 @@ from pathlib import Path
 
 import pytest
 
-from mod5_pages import LoginPage
+from selenium_practice.pages.mod5_pages import LoginPage
 
 DATA_FILE = Path(__file__).parent / "mod7_login_cases.csv"
 

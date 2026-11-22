@@ -120,7 +120,7 @@ HANDS-ON PRACTICE
 Save as mod1-locators.py, venv activated, then run:
 
 ```
-python3 FILES/mod1-locators.py
+python3 tests/mod1-locators.py
 ```
 
 ```python

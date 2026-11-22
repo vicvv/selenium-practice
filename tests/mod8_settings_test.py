@@ -16,7 +16,7 @@ import os
 
 import pytest
 
-from mod5_pages import LoginPage
+from selenium_practice.pages.mod5_pages import LoginPage
 
 # badssl.com is a public site made for testing certificate errors
 BAD_CERT_URL = "https://self-signed.badssl.com/"

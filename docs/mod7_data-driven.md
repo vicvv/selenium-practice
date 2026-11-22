@@ -83,7 +83,7 @@ test_failed_login_shows_error[unknown-user] PASSED
 A failure report tells you straight away which case broke. You can also run only some cases with -k, because -k matches the ids too:
 
 ```
-python3 -m pytest FILES/mod7_login_data_test.py -v -k empty
+python3 -m pytest tests/mod7_login_data_test.py -v -k empty
 ```
 
 
@@ -195,25 +195,25 @@ HANDS-ON PRACTICE
 Run only the Module 7 tests:
 
 ```
-python3 -m pytest FILES/mod7_login_data_test.py -v
+python3 -m pytest tests/mod7_login_data_test.py -v
 ```
 
 You should see 7 tests, each named after its case:
 
 ```
-FILES/mod7_login_data_test.py::test_failed_login_inline[lowercase-password] PASSED
-FILES/mod7_login_data_test.py::test_failed_login_inline[partial-username] PASSED
-FILES/mod7_login_data_test.py::test_failed_login_inline[both-empty] PASSED
-FILES/mod7_login_data_test.py::test_failed_login_from_csv[wrong-password] PASSED
-FILES/mod7_login_data_test.py::test_failed_login_from_csv[empty-password] PASSED
-FILES/mod7_login_data_test.py::test_failed_login_from_csv[unknown-user] PASSED
-FILES/mod7_login_data_test.py::test_failed_login_from_csv[empty-username] PASSED
+tests/mod7_login_data_test.py::test_failed_login_inline[lowercase-password] PASSED
+tests/mod7_login_data_test.py::test_failed_login_inline[partial-username] PASSED
+tests/mod7_login_data_test.py::test_failed_login_inline[both-empty] PASSED
+tests/mod7_login_data_test.py::test_failed_login_from_csv[wrong-password] PASSED
+tests/mod7_login_data_test.py::test_failed_login_from_csv[empty-password] PASSED
+tests/mod7_login_data_test.py::test_failed_login_from_csv[unknown-user] PASSED
+tests/mod7_login_data_test.py::test_failed_login_from_csv[empty-username] PASSED
 ```
 
 Run everything (Modules 4 to 7, 25 tests):
 
 ```
-python3 -m pytest FILES/ -v
+python3 -m pytest tests/ -v
 ```
 
 Add a case without touching any Python. Add this line at the end of mod7_login_cases.csv, save, and run again:

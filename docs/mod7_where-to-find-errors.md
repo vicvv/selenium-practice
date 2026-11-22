@@ -19,9 +19,9 @@ The details are printed in the terminal, in a FAILURES section after the list of
 These options make failures easier to work with:
 
 ```
-python3 -m pytest FILES/ -v -x          # stop at the first failure
-python3 -m pytest FILES/ -v --lf        # rerun only the tests that failed last time
-python3 -m pytest FILES/ -v -rA         # summary line for every test, passed or failed
+python3 -m pytest tests/ -v -x          # stop at the first failure
+python3 -m pytest tests/ -v --lf        # rerun only the tests that failed last time
+python3 -m pytest tests/ -v -rA         # summary line for every test, passed or failed
 ```
 
 
@@ -30,7 +30,7 @@ SAVING THE OUTPUT TO A FILE
 To keep a record, send the output to a file as well as the screen:
 
 ```
-python3 -m pytest FILES/ -v 2>&1 | tee test-run.log
+python3 -m pytest tests/ -v 2>&1 | tee test-run.log
 ```
 
 You still see everything on screen, and a copy is saved in test-run.log. Open it in VS Code afterwards.
@@ -56,7 +56,7 @@ def test_valid_login_reaches_secure_area(driver):
 Run just that one test:
 
 ```
-python3 -m pytest FILES/mod5_login_test.py -v -k valid_login
+python3 -m pytest tests/mod5_login_test.py -v -k valid_login
 ```
 
 The test pauses with the browser open, so you can look at the page or even Inspect it.

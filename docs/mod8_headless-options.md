@@ -80,8 +80,8 @@ def driver(request):
 Now the same tests run either way:
 
 ```
-python3 -m pytest FILES/ -v               # with a window (default)
-python3 -m pytest FILES/ -v --headless    # without a window
+python3 -m pytest tests/ -v               # with a window (default)
+python3 -m pytest tests/ -v --headless    # without a window
 ```
 
 
@@ -150,7 +150,7 @@ def get_credentials():
 pytest.skip() stops the test and reports it as SKIPPED, not FAILED. To see the reason in the summary, add -rs:
 
 ```
-python3 -m pytest FILES/mod8_settings_test.py -v -rs
+python3 -m pytest tests/mod8_settings_test.py -v -rs
 ```
 
 
@@ -172,7 +172,7 @@ Trap 1 - Headless with no window size.
 The small default window can trigger a mobile layout or hide elements. The test passes when you watch it and fails headless. Always set --window-size.
 
 Trap 2 - "unrecognized arguments: --headless".
-pytest only reads pytest_addoption from conftest.py files it loads at startup. With FILES/ on the command line, it loads FILES/conftest.py and the option works. Plain python3 -m pytest --headless from the repo root does not load it, and pytest stops with this error. Always include FILES/ (or a file inside it).
+pytest only reads pytest_addoption from conftest.py files it loads at startup. With tests/ on the command line, it loads tests/conftest.py and the option works. Plain python3 -m pytest --headless from the repo root does not load it, and pytest stops with this error. Always include tests/ (or a file inside it).
 
 Trap 3 - accept_insecure_certs for everything.
 Turning it on in every fixture hides real certificate problems. Keep it in a separate fixture and use it only where you need it.
@@ -207,7 +207,7 @@ Copy the new conftest.py over the old one first. Then:
 1. Run the Module 8 tests without any variables set:
 
 ```
-python3 -m pytest FILES/mod8_settings_test.py -v -rs
+python3 -m pytest tests/mod8_settings_test.py -v -rs
 ```
 
    Expect 3 passed and 1 skipped. The skipped one is the login test, with the reason shown.
@@ -217,7 +217,7 @@ python3 -m pytest FILES/mod8_settings_test.py -v -rs
 ```
 export TEST_USER=tomsmith
 export TEST_PASSWORD='SuperSecretPassword!'
-python3 -m pytest FILES/mod8_settings_test.py -v
+python3 -m pytest tests/mod8_settings_test.py -v
 ```
 
    Expect 4 passed.
@@ -225,7 +225,7 @@ python3 -m pytest FILES/mod8_settings_test.py -v
 3. Run everything headless:
 
 ```
-python3 -m pytest FILES/ -v --headless
+python3 -m pytest tests/ -v --headless
 ```
 
    No windows open, and every module's tests still pass. That is roughly how they would run on GitHub Actions.
@@ -236,7 +236,7 @@ Break it on purpose (this step is MEANT to fail):
 
 ```
 export TEST_PASSWORD=wrong
-python3 -m pytest FILES/mod8_settings_test.py -v -k env
+python3 -m pytest tests/mod8_settings_test.py -v -k env
 ```
 
 2. The test fails with a TimeoutException from login_as() in mod5_pages.py: the login fails, so the URL never changes to /secure.
@@ -290,7 +290,7 @@ ANSWERS
 
 1. No window size was set, so headless Chrome used its small default window. The page switched to a smaller layout or hid elements. Set --window-size in the Chrome options.
 
-2. pytest only reads pytest_addoption from conftest.py files it loads at startup. Without FILES/ on the command line, FILES/conftest.py is not loaded, so pytest does not know the option. Run python3 -m pytest FILES/ --headless.
+2. pytest only reads pytest_addoption from conftest.py files it loads at startup. Without tests/ on the command line, tests/conftest.py is not loaded, so pytest does not know the option. Run python3 -m pytest tests/ --headless.
 
 3. The site's certificate is not trusted, so Chrome shows its warning page instead of the site, and no locator matches. For a trusted dev site, use a browser started with accept_insecure_certs (the insecure_driver fixture). Better, if possible: have the certificate fixed, or install the company certificate so the computer trusts it.
 

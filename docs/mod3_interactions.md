@@ -117,7 +117,7 @@ HANDS-ON PRACTICE
 Save as mod3_interactions.py, venv activated:
 
 ```
-python3 FILES/mod3_interactions.py
+python3 scripts/mod3_interactions.py
 ```
 
 - Part A uses a public login form.
@@ -186,7 +186,7 @@ Checkbox 1 selected? True
 Checkbox 2 selected? True
 ```
 
-The script runs in a few seconds, which is hard to watch. FILES/mod3_interactions_slow.py is the same script with short time.sleep() pauses, so you can see each step. Those sleeps are for watching only, never for real tests (Module 2).
+The script runs in a few seconds, which is hard to watch. scripts/mod3_interactions_slow.py is the same script with short time.sleep() pauses, so you can see each step. Those sleeps are for watching only, never for real tests (Module 2).
 
 
 FOR YOUR OWN APP LATER

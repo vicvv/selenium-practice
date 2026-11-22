@@ -61,10 +61,10 @@ pytest finds tests by name. Nothing is registered by hand.
 Run from the repo root:
 
 ```
-python3 -m pytest FILES/ -v                  # all tests in FILES, verbose
-python3 -m pytest FILES/test_basics.py -v    # one file
-python3 -m pytest FILES/ -v -k login         # only tests with "login" in the name
-python3 -m pytest FILES/ -v -s               # -s shows print() output
+python3 -m pytest tests/ -v                  # all tests in tests/, verbose
+python3 -m pytest tests/test_basics.py -v    # one file
+python3 -m pytest tests/ -v -k login         # only tests with "login" in the name
+python3 -m pytest tests/ -v -s               # -s shows print() output
 ```
 
 
@@ -73,7 +73,7 @@ FIXTURES - SETUP AND TEARDOWN DONE RIGHT
 Every test needs a browser and must close it afterwards, even if the test fails.
 A pytest fixture handles that.
 
-Put this in FILES/conftest.py. pytest loads this file automatically,
+Put this in tests/conftest.py. pytest loads this file automatically,
 so you never import it.
 
 ```python
@@ -147,9 +147,9 @@ READING PYTEST OUTPUT
 A passing run:
 
 ```
-FILES/test_basics.py::test_valid_login_shows_success PASSED
-FILES/test_basics.py::test_wrong_password_shows_error PASSED
-FILES/test_basics.py::test_all_checkboxes_can_be_checked PASSED
+tests/test_basics.py::test_valid_login_shows_success PASSED
+tests/test_basics.py::test_wrong_password_shows_error PASSED
+tests/test_basics.py::test_all_checkboxes_can_be_checked PASSED
 =========== 3 passed ===========
 ```
 
@@ -165,7 +165,7 @@ E       AssertionError: assert 'Welcome!' in 'You logged into a secure area!...'
 
 HANDS-ON PRACTICE
 
-Files (both in FILES/):
+Files (both in tests/):
 
 - conftest.py - the driver fixture
 - test_basics.py - three real tests: valid login, wrong password, checkboxes
@@ -173,7 +173,7 @@ Files (both in FILES/):
 Run:
 
 ```
-python3 -m pytest FILES/ -v
+python3 -m pytest tests/ -v
 ```
 
 Three Chrome windows open and close one after another, because each test gets
@@ -202,7 +202,7 @@ MENTAL MODEL
 QUIZ (answers below - try before peeking)
 
 1. You named a file login_checks.py with a function test_login(). You run
-   python3 -m pytest FILES/ and get "0 items collected". Why?
+   python3 -m pytest tests/ and get "0 items collected". Why?
 
 2. What does this do, and why is it dangerous?
    assert (len(rows) == 3, "expected 3 rows")

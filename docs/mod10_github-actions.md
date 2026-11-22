@@ -172,7 +172,7 @@ python3 -m pytest
 
 ```
 git pull
-git add .github/workflows/mod10_selenium-tests.yml FILES/mod10_smoke_test.py DOCS/mod10_github-actions.md
+git add .github/workflows/mod10_selenium-tests.yml tests/mod10_smoke_test.py docs/mod10_github-actions.md
 git commit -m "Module 10: run tests on GitHub Actions"
 git push
 ```
@@ -185,11 +185,11 @@ git push
 
 Break it on purpose (this step is MEANT to fail):
 
-1. In FILES/mod10_smoke_test.py, line 21, change
+1. In tests/mod10_smoke_test.py, line 21, change
    assert "/login" in login_page.url
    to
    assert "/welcome" in login_page.url
-   To confirm the line number: grep -n '"/login"' FILES/mod10_smoke_test.py
+   To confirm the line number: grep -n '"/login"' tests/mod10_smoke_test.py
 2. Commit and push.
 3. In the Actions tab, the run gets a red X. The "Smoke tests" step failed, and "All other tests" was skipped.
 4. Download the failure-screenshots artifact. It shows the login page, so the page loaded and only the expected text was wrong.

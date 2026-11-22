@@ -1,6 +1,6 @@
-CHECKLIST - BEFORE AUTOMATING AGAINST  DEV TARGET
+CHECKLIST - BEFORE AUTOMATING AGAINST A DEV TARGET
 
-Target: https://targeturl
+Target: https://<your-dev-app-url>
 
 
 NETWORK ACCESS
@@ -12,7 +12,7 @@ NETWORK ACCESS
 
 PERMISSION / POLICY (do this BEFORE pointing automation at it)
 
-- [ ] Confirmed with the system owner  that automated Selenium traffic against the DEV instance is OK.
+- [ ] Confirmed with the system owner that automated Selenium traffic against the DEV instance is OK.
 - [ ] Confirmed I'm only hitting DEV, never a production instance.
 - [ ] Confirmed no sensitive/real data is at risk.
 
@@ -34,7 +34,7 @@ CREDENTIALS SAFETY (never commit secrets)
 
 CERTIFICATES
 
-- [ ] If the site shows "connection not private," plan to use Chrome option accept_insecure_certs (covered ~Module 8).
+- [ ] If the site shows "connection not private," plan to use Chrome option accept_insecure_certs (covered in Module 8).
 
 
 READY-TO-GO SIGNAL

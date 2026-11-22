@@ -7,7 +7,7 @@ Run from the repo root with the venv active:
     python3 -m pytest FILES/mod5_login_test.py -v
 """
 
-from mod5_pages import LoginPage
+from selenium_practice.pages.mod5_pages import LoginPage
 
 VALID_USER = "tomsmith"
 VALID_PASSWORD = "SuperSecretPassword!"

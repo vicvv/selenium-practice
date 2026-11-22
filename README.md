@@ -38,7 +38,7 @@ Other ways to run:
 python3 -m pytest --headless        # without a browser window
 python3 -m pytest -m smoke          # smoke tests only
 python3 -m pytest -k login          # only tests with "login" in the name
-python3 FILES/mod1_locators.py      # a Module 1 to 3 script (these are not pytest tests)
+python3 scripts/mod1_locators.py      # a Module 1 to 3 script (these are not pytest tests)
 ```
 
 The Module 8 login test reads its login from environment variables and skips if they are not set. To run it, use the practice site's public demo login:
@@ -54,8 +54,8 @@ REPO LAYOUT
 ```
 selenium-practice/
     README.md              this file
-    DOCS/                  notes for each module
-    FILES/                 practice scripts, tests, page objects, conftest.py
+    docs/                  notes for each module
+    tests/                 practice scripts, tests, page objects, conftest.py
     .github/workflows/     the GitHub Actions workflow (Module 10)
     pytest.ini             pytest settings
     requirements.txt       Python packages and versions
@@ -71,58 +71,58 @@ Three files must keep their exact names because the tools look for them: conftes
 THE MODULES
 
 Module 0 - Setup and Git
-  Notes: DOCS/mod0_setup-git.md
-  Code:  FILES/mod0_first.py
+  Notes: docs/mod0_setup-git.md
+  Code:  scripts/mod0_first.py
   A Python virtual environment, installing Selenium, a first script that opens Chrome, Git and GitHub with an SSH key, .gitignore, everyday Git commands and common fixes.
 
 Module 1 - Locators
-  Notes: DOCS/mod1_locators.md
-  Code:  FILES/mod1_locators.py
+  Notes: docs/mod1_locators.md
+  Code:  scripts/mod1_locators.py
   Finding elements by ID, name, CSS selector, XPath and more. find_element vs find_elements. Choosing locators that do not break.
 
 Module 2 - Waits
-  Notes: DOCS/mod2_waits.md
-  Code:  FILES/mod2_waits.py
+  Notes: docs/mod2_waits.md
+  Code:  scripts/mod2_waits.py
   Explicit waits with WebDriverWait and expected conditions. Why time.sleep() and implicit waits lead to flaky tests.
 
 Module 3 - Browser interactions
-  Notes: DOCS/mod3_interactions.md
-  Code:  FILES/mod3_interactions.py
+  Notes: docs/mod3_interactions.md
+  Code:  scripts/mod3_interactions.py
   Typing, clearing, clicking, keyboard keys, select dropdowns, checkboxes and radio buttons. Waiting for a change to happen before checking it.
 
 Module 4 - Assertions and pytest
-  Notes: DOCS/mod4_pytest.md
-  Code:  FILES/mod4_basics_test.py, FILES/conftest.py
+  Notes: docs/mod4_pytest.md
+  Code:  tests/mod4_basics_test.py, tests/conftest.py
   Turning scripts into tests that pass or fail. assert, how pytest finds tests, fixtures for setup and teardown, reading failure output, keeping tests independent.
 
 Module 5 - Page Object Model
-  Notes: DOCS/mod5_page-objects.md
-  Code:  FILES/mod5_pages.py, FILES/mod5_login_test.py
+  Notes: docs/mod5_page-objects.md
+  Code:  src/selenium_practice/pages/mod5_pages.py, tests/mod5_login_test.py
   One class per page holding its locators and actions. A base page with shared helpers. Methods that return the next page. Keeping locators out of tests.
 
 Module 6 - Tricky elements
-  Notes: DOCS/mod6_tricky-elements.md
-  Code:  FILES/mod6_pages.py, FILES/mod6_tricky_test.py
+  Notes: docs/mod6_tricky-elements.md
+  Code:  src/selenium_practice/pages/mod6_pages.py, tests/mod6_tricky_test.py
   JavaScript alerts, iframes and nested frames, multiple tabs and windows, file uploads using pytest's tmp_path.
 
 Module 7 - Data-driven tests
-  Notes: DOCS/mod7_data-driven.md, DOCS/mod7_where-to-find-errors.md
-  Code:  FILES/mod7_login_data_test.py, FILES/mod7_login_cases.csv
+  Notes: docs/mod7_data-driven.md, docs/mod7_where-to-find-errors.md
+  Code:  tests/mod7_login_data_test.py, tests/mod7_login_cases.csv
   pytest parametrize, readable case ids, test data from a CSV file, choosing good test cases, and where to look when a test fails.
 
 Module 8 - Headless mode, Chrome options and credentials
-  Notes: DOCS/mod8_headless-options.md
-  Code:  FILES/mod8_settings_test.py
+  Notes: docs/mod8_headless-options.md
+  Code:  tests/mod8_settings_test.py
   Headless Chrome, a fixed window size, a custom --headless option, certificate warnings, passwords in environment variables, and skipping a test with a clear reason.
 
 Module 9 - Debugging
-  Notes: DOCS/mod9_debugging.md, DOCS/mod9_pytest-ini.md
-  Code:  FILES/mod9_debug_test.py, pytest.ini
+  Notes: docs/mod9_debugging.md, docs/mod9_pytest-ini.md
+  Code:  tests/mod9_debug_test.py, pytest.ini
   A screenshot and the page HTML saved automatically when a test fails, logging, HTML reports with dated names, and default options in pytest.ini.
 
 Module 10 - GitHub Actions
-  Notes: DOCS/mod10_github-actions.md
-  Code:  .github/workflows/mod10_selenium-tests.yml, FILES/mod10_smoke_test.py
+  Notes: docs/mod10_github-actions.md
+  Code:  .github/workflows/mod10_selenium-tests.yml, tests/mod10_smoke_test.py
   Running the tests on every push, repository secrets, smoke tests with markers, and saving reports and screenshots as artifacts.
 
 

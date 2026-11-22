@@ -198,22 +198,22 @@ All pages are on the public practice site the-internet.herokuapp.com:
 Run only the Module 6 tests:
 
 ```
-python3 -m pytest FILES/mod6_tricky_test.py -v
+python3 -m pytest tests/mod6_tricky_test.py -v
 ```
 
 Run one part at a time with -k (it matches part of the test name):
 
 ```
-python3 -m pytest FILES/mod6_tricky_test.py -v -k alert
-python3 -m pytest FILES/mod6_tricky_test.py -v -k frame
-python3 -m pytest FILES/mod6_tricky_test.py -v -k window
-python3 -m pytest FILES/mod6_tricky_test.py -v -k upload
+python3 -m pytest tests/mod6_tricky_test.py -v -k alert
+python3 -m pytest tests/mod6_tricky_test.py -v -k frame
+python3 -m pytest tests/mod6_tricky_test.py -v -k window
+python3 -m pytest tests/mod6_tricky_test.py -v -k upload
 ```
 
 Run everything (Modules 4, 5 and 6, 18 tests):
 
 ```
-python3 -m pytest FILES/ -v
+python3 -m pytest tests/ -v
 ```
 
 Break it on purpose (this step is MEANT to fail):
@@ -222,7 +222,7 @@ Break it on purpose (this step is MEANT to fail):
    text = alert.text
    alert.accept()
 2. Run:
-   python3 -m pytest FILES/mod6_tricky_test.py -v -k alert_is_accepted
+   python3 -m pytest tests/mod6_tricky_test.py -v -k alert_is_accepted
 3. The test fails with NoAlertPresentException, and the traceback points at the alert.text line in mod6_pages.py. That is Trap 1.
 4. Swap the lines back and run again. It passes.
 
@@ -246,7 +246,7 @@ FOR YOUR OWN APP LATER
 - Confirmation popups such as "Are you sure you want to delete?" are usually HTML dialogs (Trap 3), not browser alerts. Inspect before choosing an approach.
 
 
-git add DOCS/mod6_tricky-elements.md FILES/mod6_pages.py FILES/mod6_tricky_test.py
+git add docs/mod6_tricky-elements.md src/selenium_practice/pages/mod6_pages.py tests/mod6_tricky_test.py
 git commit -m "Module 6: alerts, frames, windows, file uploads"
 git push
 

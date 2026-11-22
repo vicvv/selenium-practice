@@ -112,7 +112,7 @@ HANDS-ON PRACTICE
 Save as mod2-waits.py, venv activated, then run:
 
 ```
-python3 FILES/mod2-waits.py
+python3 tests/mod2-waits.py
 ```
 
 This uses the "dynamic loading" page on the-internet.herokuapp.com, a public practice site (not part of the Selenium project), which deliberately loads an element after a delay - perfect for seeing waits in action.

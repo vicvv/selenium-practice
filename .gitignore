@@ -18,3 +18,8 @@ report.html
 test-run.log
 reports/
 reports/
+
+# Python packaging
+*.egg-info/
+build/
+dist/

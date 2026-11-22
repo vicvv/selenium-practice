@@ -7,7 +7,7 @@ Run from the repo root with the venv active:
     python3 -m pytest FILES/mod6_tricky_test.py -v
 """
 
-from mod6_pages import AlertsPage, NestedFramesPage, WindowsPage, UploadPage
+from selenium_practice.pages.mod6_pages import AlertsPage, NestedFramesPage, WindowsPage, UploadPage
 
 
 # ---------- ALERTS ----------

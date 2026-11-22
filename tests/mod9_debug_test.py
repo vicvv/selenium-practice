@@ -8,7 +8,7 @@ Run from the repo root with the venv active:
 
 import logging
 
-from mod5_pages import LoginPage
+from selenium_practice.pages.mod5_pages import LoginPage
 
 logger = logging.getLogger(__name__)
 

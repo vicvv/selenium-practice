@@ -132,7 +132,7 @@ from mod5-pages import LoginPage     # SyntaxError
 from mod5_pages import LoginPage     # works
 ```
 
-How does the test find mod5_pages.py? When pytest loads a test file, it adds that file's folder (FILES/) to Python's search path, so a plain import works when you run pytest from the repo root.
+How does the test find mod5_pages.py? When pytest loads a test file, it adds that file's folder (tests/) to Python's search path, so a plain import works when you run pytest from the repo root.
 
 VS Code may underline the import line in yellow because it does not know about that pytest behavior. The tests still run fine.
 
@@ -158,7 +158,7 @@ Trap 6 - One giant page class.
 One class for the whole app becomes impossible to maintain. Use one class per page. A part shared by many pages (like a top menu) can be its own class.
 
 Trap 7 - Running a test file with python3.
-python3 FILES/mod5_login_test.py does nothing useful: the file only defines functions, and nothing provides the driver fixture. Test files always run through pytest.
+python3 tests/mod5_login_test.py does nothing useful: the file only defines functions, and nothing provides the driver fixture. Test files always run through pytest.
 
 
 READING A PAGE OBJECT FAILURE
@@ -173,7 +173,7 @@ Read the traceback from the bottom up: the last lines show where it actually bro
 
 HANDS-ON PRACTICE
 
-Files (all in FILES/):
+Files (all in tests/):
 
 - conftest.py - unchanged from Module 4
 - mod5_pages.py - BasePage, LoginPage, SecureAreaPage
@@ -182,13 +182,13 @@ Files (all in FILES/):
 Run only the Module 5 tests:
 
 ```
-python3 -m pytest FILES/mod5_login_test.py -v
+python3 -m pytest tests/mod5_login_test.py -v
 ```
 
 Run everything (Module 4 and Module 5, 7 tests):
 
 ```
-python3 -m pytest FILES/ -v
+python3 -m pytest tests/ -v
 ```
 
 Break it on purpose (this step is MEANT to fail):
